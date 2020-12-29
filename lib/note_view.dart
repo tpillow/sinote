@@ -121,7 +121,14 @@ class _NoteViewState extends State<NoteView> {
         //tileColor: Colors.black45,
         contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         title: Container(
-          color: Colors.black45,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.greenAccent,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.black45,
+          ),
           padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

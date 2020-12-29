@@ -20,7 +20,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _reloadNoteData();
-    TextFormField();
   }
 
   Future<void> _reloadNoteData() async {
@@ -89,16 +88,18 @@ class _HomeState extends State<Home> {
   List<Widget> _makeNoteDataListWidgets(BuildContext context) {
     return List.generate(_noteData.length, (i) {
       List<Widget> children = [
-        Text(
-          _noteData[i].title,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
+        Expanded(
+          child: Text(
+            _noteData[i].title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ];
       final bool hasPasswordSet = _noteData[i].hasPasswordSet;
-      if (hasPasswordSet) children.insert(0, Icon(Icons.lock));
+      if (hasPasswordSet) children.add(Icon(Icons.lock));
 
       return InkWell(
         onTap: () async {
@@ -201,9 +202,16 @@ class _HomeState extends State<Home> {
           }
         },
         child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.black45,
+          ),
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.all(8),
-          color: Colors.black45,
           child: Row(
             children: children,
           ),
