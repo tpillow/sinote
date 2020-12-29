@@ -29,8 +29,6 @@ dependencies:
   flutter:
     sdk: flutter
   prompt_dialog:
-    # Custom changes to prompt_dialog on tpillow repository
-    path: ../prompt_dialog
   alert_dialog:
   confirm_dialog:
   overlay_support:

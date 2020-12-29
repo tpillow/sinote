@@ -7,6 +7,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
 
 import 'data.dart';
+import 'note_settings.dart';
 
 class NoteView extends StatefulWidget {
   final String noteTitle;
@@ -97,25 +98,12 @@ class _NoteViewState extends State<NoteView> {
                   await Clipboard.setData(clipData);
                   toast("All notes copied.");
                 }),
-                _createMainButton(Icon(Icons.lock), "Password", () async {
-                  String password = await prompt(
-                    context,
-                    title: Text("Password Settings"),
-                    hintText: "Password (this is NOT stored securely!)",
-                    autoFocus: true,
-                    textOK: Text("Set"),
-                    textCancel: Text("Unset"),
-                    obscureText: true,
-                  );
-
-                  if (password != null) {
-                    await DataManager.instance
-                        .setPassword(_data.title, password);
-                    toast("Password set.");
-                  } else {
-                    await DataManager.instance.setPassword(_data.title, null);
-                    toast("Password unset.");
-                  }
+                _createMainButton(Icon(Icons.settings), "Settings", () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (ctx) => NoteSettings(_data.title)));
+                  await _reloadData();
                 }),
               ],
             ),
