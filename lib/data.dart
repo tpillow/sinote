@@ -15,7 +15,7 @@ class NoteData {
   }
 
   @override
-  String toString() => notes.join("\n");
+  String toString() => notes.join("\r\n");
 }
 
 class DataManager {

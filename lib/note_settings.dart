@@ -1,3 +1,4 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -68,6 +69,22 @@ class _NoteSettingsState extends State<NoteSettings> {
                 await DataManager.instance.setPassword(widget.noteTitle, null);
                 toast("Password unset.");
                 await _reloadSettings();
+              }
+            },
+          ),
+          ListTile(
+            title: Text("Delete All Notes"),
+            onTap: () async {
+              if (await confirm(
+                context,
+                title: Text("Delete All Notes?"),
+                content: Text("Are you sure? This cannot be undone."),
+              )) {
+                NoteData data = await DataManager.instance
+                    .getNoteData(widget.noteTitle, shallow: false);
+                data.notes.clear();
+                await DataManager.instance.saveNoteData(data);
+                toast("All notes deleted.");
               }
             },
           ),

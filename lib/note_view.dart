@@ -20,6 +20,7 @@ class NoteView extends StatefulWidget {
 
 class _NoteViewState extends State<NoteView> {
   NoteData _data = NoteData("", false);
+  ScrollController _scroller = ScrollController();
 
   @override
   void initState() {
@@ -31,6 +32,11 @@ class _NoteViewState extends State<NoteView> {
     _data = await DataManager.instance
         .getNoteData(widget.noteTitle, shallow: false);
     setState(() {});
+  }
+
+  Future<void> _scrollToBottom() async {
+    await _scroller.animateTo(_scroller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 
   @override
@@ -50,6 +56,7 @@ class _NoteViewState extends State<NoteView> {
           Expanded(
             child: ReorderableListView(
               children: _makeNoteList(context),
+              scrollController: _scroller,
               onReorder: (oi, ni) async {
                 if (ni > oi) ni--;
                 _data.notes.insert(ni, _data.notes.removeAt(oi));
@@ -76,6 +83,7 @@ class _NoteViewState extends State<NoteView> {
                     _data.notes.add(text);
                     await DataManager.instance.saveNoteData(_data);
                     await _reloadData();
+                    await _scrollToBottom();
                   }
                 }),
                 _createMainButton(Icon(Icons.paste), "New (Paste)", () async {
@@ -90,6 +98,7 @@ class _NoteViewState extends State<NoteView> {
                     _data.notes.add(clipData.text);
                     await DataManager.instance.saveNoteData(_data);
                     await _reloadData();
+                    await _scrollToBottom();
                   }
                 }),
                 _createMainButton(Icon(Icons.copy), "Copy All", () async {
